@@ -9,30 +9,31 @@ tables = soup.find_all("table", {"class": "wikitable"})
 
 listOfTables = []
 
-
-
+nav_string = tables[0].tr.next_sibling
+tag = tables[0].tr
+# <class 'bs4.element.Tag'>
+# <class 'bs4.element.NavigableString'>
+# print(type(tables) == )
 for table in tables:
     headers = []
     data = []
     for row in table:
-        index = 1
-        # check each row to see if it is a header row
-        # if hasattr(row, "th") == True:
-        #     print({row: row, name: row.name, HoD: 'header'})
-        #     headers.append(row.string)
-        # if hasattr(row, "td") == True:
-        #     print({row: row, name: row.name, HoD:'data'})
-        #     data.append(row.string)
 
-    listOfTables.append({ "data": data, "headers": headers })
-
+        # check each row to see if it is a tag object
+        if type(row) == type(tag):
+            for td in row:
+                print({"string": td.string, "the_type": type(td), "box": "1"})
+                print({"string": td.string, "the_type": type(td), "box": "2"})
 
 
 # {"citation_form": '', "declining_stem": '', "meaning": '', "english_derivatives": ''}
-print(listOfTables[0])
+# print(listOfTables[0])
 
+#
+# print(type(tables))
+# print(type(tables[0]))
+# print(type(tables[0].tr.next_sibling)) #<class 'bs4.element.NavigableString'>
+#
+# print(type(tables[0].tr)) # <class 'bs4.element.Tag'> .text , next/prev_sibling,
 
-print(type(tables))
-print(type(tables[0]))
-print(type(tables[0].tr))
-print(tables[0].tr.get("table"))
+# print(tables[0].tr.get("table"))
