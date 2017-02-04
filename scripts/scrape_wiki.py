@@ -1,6 +1,6 @@
 import bs4 as bs
 import urllib2
-import regex
+import json
 
 sauce = urllib2.urlopen('https://en.wikipedia.org/wiki/List_of_Latin_words_with_English_derivatives').read()
 soup = bs.BeautifulSoup(sauce, 'lxml')
