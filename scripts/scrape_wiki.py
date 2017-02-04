@@ -20,11 +20,9 @@ for table in tables:
     for row in table:
 
         # check each row to see if it is a tag object
-        if type(row) == type(tag):
             for td in row:
-                print({"string": td.string, "the_type": type(td), "box": "1"})
-                print({"string": td.string, "the_type": type(td), "box": "2"})
-
+                if type(td) == type(tag):
+                    
 
 # {"citation_form": '', "declining_stem": '', "meaning": '', "english_derivatives": ''}
 # print(listOfTables[0])
