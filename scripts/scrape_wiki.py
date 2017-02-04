@@ -63,27 +63,28 @@ for row in tables[1]:
         # @formatter:off
         if type(td) == tag and td.name != 'th':
             if index == 0:
-                rowData["citation_form"]       = td.string
+                rowData["citation_form"]       = td.text
                 index = index + 1
 
             elif index == 1:
-                rowData["present_stem"]        = td.string
+                rowData["present_stem"]        = td.text
                 index = index + 1
 
             elif index == 2:
-                rowData["perfect_stem"]        = td.string.decode('unicode_escape').encode('ascii','ignore')
+                rowData["perfect_stem"]        = td.text
                 index = index + 1
 
             elif index == 3:
-                rowData["participal_stem"]     = td.string.decode('unicode_escape').encode('ascii','ignore')
+                rowData["participal_stem"]     = td.text
                 index = index + 1
 
             elif index == 4:
-                rowData["meaning"]             = td.string.decode('unicode_escape').encode('ascii','ignore')
+                rowData["meaning"]             = td.text
 
             elif index == 5:
-                rowData["english_derivatives"] = td.string.decode('unicode_escape').encode('ascii','ignore')
+                rowData["english_derivatives"] = td.text
     #@formatter:on
+    # string.decode('unicode_escape').encode('ascii', 'ignore')
     if is_empty(rowData) == False:
         verbs_table.append(rowData)
 print(verbs_table)
