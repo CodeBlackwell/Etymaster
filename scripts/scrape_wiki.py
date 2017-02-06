@@ -23,68 +23,87 @@ def is_empty(hash):
             empty = False
     return empty
 
+def get_prev_props(row, property):
+    if is_empty(row) == True:
+        get_prev_props(row)
+
 
 nouns_and_adjectives = []
-
+nouns_and_adjectives_table_index = 0
 for row in tables[0]:
-    index = 0
+    row_index = 0
     rowData = {"citation_form": None, "declining_stem": None, "meaning": None, "english_derivatives": None}
     # check each row to see if it is a tag object
     for td in row:
         # check each <td> tag to ignore all headers and only pass tags
         # assign appropriate keys to all values
-        if type(td) == tag and td.name != 'th':
-            if index == 0:
-                rowData["citation_form"] = td.string
-                index = index + 1
+        # @formatter:off
+        if type(td) == tag and td.name != 'th' and len(row) == 4:
+            if row_index == 0:
+                rowData["citation_form"]       = td.string
+                row_index = row_index + 1
 
-            elif index == 1:
-                rowData["declining_stem"] = td.string
-                index = index + 1
+            elif row_index == 1:
+                rowData["declining_stem"]      = td.string
+                row_index = row_index + 1
 
-            elif index == 2:
-                rowData["meaning"] = td.string
-                index = index + 1
+            elif row_index == 2:
+                rowData["meaning"]             = td.string
+                row_index = row_index + 1
 
-            elif index == 3:
+            elif row_index == 3:
                 rowData["english_derivatives"] = td.string
                 break
+    # @formatter:on
+        elif type(td) == tag and td.name != 'th' and len(row) == 2:
+            if row_index == 0:
+               rowData["citation_form"]       = td.string
+               row_index = row_index + 1
+
+            elif row_index == 1:
+               rowData["declining_stem"]      = td.string
+               row_index = row_index + 1
+
+            elif row_index == 2:
+               rowData["meaning"]             = table[]
+               row_index = row_index + 1
+
+            elif row_index == 3:
+               rowData["english_derivatives"] = td.string
+               break
+       # @formatter:on
     if is_empty(rowData) == False:
         nouns_and_adjectives.append(rowData)
+    nouns_and_adjectives_table_index += 1
+# print(nouns_and_adjectives)
 
 verbs_table = []
 
 for row in tables[1]:
-    index = 0
+    row_index = 0
     rowData = {"citation_form": None, "declining_stem": None, "meaning": None, "english_derivatives": None}
     # check each row to see if it is a tag object
     for td in row:
         # assign appropriate keys to all values
         # @formatter:off
         if type(td) == tag and td.name != 'th':
-            if index == 0:
+            if row_index == 0:
                 rowData["citation_form"]       = td.text
-                index = index + 1
+                row_index = row_index + 1
 
-            elif index == 1:
-                rowData["present_stem"]        = td.text
-                index = index + 1
+            elif row_index == 1:
+                rowData["declining_stem"]      = td.text
+                row_index = row_index + 1
 
-            elif index == 2:
-                rowData["perfect_stem"]        = td.text
-                index = index + 1
-
-            elif index == 3:
-                rowData["participal_stem"]     = td.text
-                index = index + 1
-
-            elif index == 4:
+            elif row_index == 2:
                 rowData["meaning"]             = td.text
+                row_index = row_index + 1
 
-            elif index == 5:
+            elif row_index == 3:
                 rowData["english_derivatives"] = td.text
+                row_index = row_index + 1
     #@formatter:on
-    # string.decode('unicode_escape').encode('ascii', 'ignore')
+
     if is_empty(rowData) == False:
         verbs_table.append(rowData)
-print(verbs_table)
+# print(verbs_table)
