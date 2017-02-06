@@ -19,12 +19,8 @@ tag = type(tables[0].tr)
 # print(tables)
 
 def validate(element):
-    result = [element.text]
     if element.string == None:
-        anchors = bs.BeautifulSoup(str(element), 'lxml').find_all("a")
-        for anchor in anchors:
-            # result.append(anchor.string)
-            return result
+        return element.text
     else:
         return element.string
 
