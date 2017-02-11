@@ -5,10 +5,6 @@ const Latin = require('../database/latin_tables.json')
 
 const { nouns_and_adjectives, verbs, prepositions} = Latin
 
-var PlaneCrash = bookshelf.Model.extend({
-    tableName: 'plane_crashes_1908'
-})
-
 const Latin_nouns_and_adjectives = bookshelf.Model.extend({
     tableName: 'latin_nouns_and_adjectives'
 });
