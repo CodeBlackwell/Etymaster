@@ -50,9 +50,9 @@ nouns_and_adj_index = 0
 for row in tables[0]:
     data_row_index = 0
     rowData = {
-        "citation_form":       None,
-        "declining_stem":      None,
-        "meaning":             None,
+        "citation_form": None,
+        "declining_stem": None,
+        "meaning": None,
         "english_derivatives": None}
     for td in row:
         if num_of_elements(row) == 4:
@@ -103,17 +103,16 @@ for row in tables[0]:
         nouns_and_adj.append(rowData)
         nouns_and_adj_index = nouns_and_adj_index + 1
 
-
 verbs = []
 verbs_index = 0
 for row in tables[1]:
     data_row_index = 0
     rowData = {
-        "citation_form":       None,
-        "present_stem":        None,
-        "perfect_stem":        None,
-        "participal_stem":     None,
-        "meaning":             None,
+        "citation_form": None,
+        "present_stem": None,
+        "perfect_stem": None,
+        "participal_stem": None,
+        "meaning": None,
         "english_derivatives": None
     }
     # check each row to see if it is a tag object
@@ -122,23 +121,23 @@ for row in tables[1]:
 
             if type(td) == tag and td.name != 'th':
                 if data_row_index == 0:
-                    rowData["citation_form"]       = td.text
+                    rowData["citation_form"] = td.text
                     data_row_index = data_row_index + 1
 
                 elif data_row_index == 1:
-                    rowData["present_stem"]        = td.text
+                    rowData["present_stem"] = td.text
                     data_row_index = data_row_index + 1
 
                 elif data_row_index == 2:
-                    rowData["perfect_stem"]        = td.text
+                    rowData["perfect_stem"] = td.text
                     data_row_index = data_row_index + 1
 
                 elif data_row_index == 3:
-                    rowData["participal_stem"]     = td.text
+                    rowData["participal_stem"] = td.text
                     data_row_index = data_row_index + 1
 
                 elif data_row_index == 4:
-                    rowData["meaning"]             = td.text
+                    rowData["meaning"] = td.text
                     data_row_index = data_row_index + 1
 
                 elif data_row_index == 5:
@@ -146,28 +145,28 @@ for row in tables[1]:
                     break
 
         elif num_of_elements(row) == 5:
-            prev  = verbs_index - 1
+            prev = verbs_index - 1
             valid = validate(td)
 
             if data_row_index == 0:
                 rowData["citation_form"] = valid
-                data_row_index           = data_row_index + 1
+                data_row_index = data_row_index + 1
 
             elif data_row_index == 1:
                 rowData["present_stem"] = valid
-                data_row_index          = data_row_index + 1
+                data_row_index = data_row_index + 1
 
             elif data_row_index == 2:
                 rowData["perfect_stem"] = valid
-                data_row_index          = data_row_index + 1
+                data_row_index = data_row_index + 1
 
             elif data_row_index == 3:
                 rowData["participal_stem"] = valid
-                data_row_index             = data_row_index + 1
+                data_row_index = data_row_index + 1
 
             elif data_row_index == 4:
-                rowData["meaning"]         = verbs[prev]["meaning"]
-                data_row_index             = data_row_index + 1
+                rowData["meaning"] = verbs[prev]["meaning"]
+                data_row_index = data_row_index + 1
 
 
             elif data_row_index == 5:
@@ -175,38 +174,36 @@ for row in tables[1]:
                 break
 
         elif num_of_elements(row) == 4:
-            prev  = verbs_index - 1
+            prev = verbs_index - 1
             valid = validate(td)
 
             if data_row_index == 0:
                 rowData["citation_form"] = valid
-                data_row_index           = data_row_index + 1
+                data_row_index = data_row_index + 1
 
             elif data_row_index == 1:
                 rowData["present_stem"] = valid
-                data_row_index          = data_row_index + 1
+                data_row_index = data_row_index + 1
 
             elif data_row_index == 2:
                 rowData["perfect_stem"] = valid
-                data_row_index          = data_row_index + 1
+                data_row_index = data_row_index + 1
 
             elif data_row_index == 3:
                 rowData["participal_stem"] = valid
-                data_row_index             = data_row_index + 1
+                data_row_index = data_row_index + 1
 
             elif data_row_index == 4:
                 rowData["meaning"] = verbs[prev]["meaning"]
-                data_row_index     = data_row_index + 1
+                data_row_index = data_row_index + 1
 
             elif data_row_index == 5:
                 rowData["english_derivatives"] = verbs[prev]["english_derivatives"]
                 break
-        #@formatter:on
+                # @formatter:on
     if is_empty(rowData) == False:
         verbs.append(rowData)
         verbs_index = verbs_index + 1
-
-
 
 prepositions = []
 prepositions_index = 0
@@ -239,8 +236,12 @@ for row in tables[2]:
         prepositions_index = prepositions_index + 1
 
 latin_tables_data = {
-    'nouns_and_adj' : nouns_and_adj,
-    'verbs'         : verbs,
-    'prepositions'  : prepositions
+    'nouns_and_adj': nouns_and_adj,
+    'verbs': verbs,
+    'prepositions': prepositions
 }
 
+f = open('latin_tables.json', 'w')
+f.write(json.dumps(latin_tables_data, sort_keys=True,
+                   indent=4, separators=(',', ': ')))
+f.close()
