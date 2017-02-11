@@ -16,11 +16,13 @@ nav_string = type(tables[0].tr.next_sibling)
 tag = type(tables[0].tr)
 
 
-# print(tables)
-
 def validate(element):
     if element.string == None:
         return element.text
+    if element.string == unicode('\n'):
+        soup = bs.BeautifulSoup(element, 'lxml')
+        for noodle in soup:
+            print type(noodle)
     else:
         return element.string
 
@@ -47,12 +49,17 @@ nouns_and_adj_index = 0
 
 for row in tables[0]:
     data_row_index = 0
-    rowData = {"citation_form": None, "declining_stem": None, "meaning": None, "english_derivatives": None}
+    rowData = {
+        "citation_form":       None,
+        "declining_stem":      None,
+        "meaning":             None,
+        "english_derivatives": None}
     for td in row:
         if num_of_elements(row) == 4:
             # @formatter:off
             if type(td) == tag and td.name != 'th':
                 valid = validate(td)
+
                 if data_row_index == 0:
                     rowData["citation_form"]       = valid
                     data_row_index = data_row_index + 1
@@ -73,59 +80,167 @@ for row in tables[0]:
 
             if type(td) == tag and td.name != 'th':
                 valid = validate(td)
-                if data_row_index == 0:
-                    rowData["citation_form"]       = valid
-                    data_row_index = data_row_index + 1
-
-                elif data_row_index == 1:
-                    rowData["declining_stem"]      = valid
-                    data_row_index = data_row_index + 1
-
-            if data_row_index == 2:
                 prev = nouns_and_adj_index - 1
 
-                # print({"index": nouns_and_adj_index, "meaning": valid})
+                if data_row_index == 0:
+                    rowData["citation_form"] = valid
+                    data_row_index           = data_row_index + 1
 
-                rowData["meaning"]             = nouns_and_adj[prev]["meaning"]
-                data_row_index = data_row_index + 1
+                elif data_row_index == 1:
+                    rowData["declining_stem"] = valid
+                    data_row_index            = data_row_index + 1
+
+            if data_row_index == 2:
+                rowData["meaning"] = nouns_and_adj[prev]["meaning"]
+                data_row_index     = data_row_index + 1
 
             elif data_row_index == 3:
-                    rowData["english_derivatives"] = nouns_and_adj[prev]["english_derivatives"]
-                    break
+                rowData["english_derivatives"] = nouns_and_adj[prev]["english_derivatives"]
+                break
                     # @formatter:on
 
     if is_empty(rowData) == False:
         nouns_and_adj.append(rowData)
         nouns_and_adj_index = nouns_and_adj_index + 1
-# print (nouns_and_adj)
-print(nouns_and_adj)
 
-verbs_table = []
-# capitellum
+
+verbs = []
+verbs_index = 0
 for row in tables[1]:
     data_row_index = 0
-    rowData = {"citation_form": None, "declining_stem": None, "meaning": None, "english_derivatives": None}
+    rowData = {
+        "citation_form":       None,
+        "present_stem":        None,
+        "perfect_stem":        None,
+        "participal_stem":     None,
+        "meaning":             None,
+        "english_derivatives": None
+    }
     # check each row to see if it is a tag object
     for td in row:
-        # assign appropriate keys to all values
-        # @formatter:off
-        if type(td) == tag and td.name != 'th':
+        if num_of_elements(row) == 6:
+
+            if type(td) == tag and td.name != 'th':
+                if data_row_index == 0:
+                    rowData["citation_form"]       = td.text
+                    data_row_index = data_row_index + 1
+
+                elif data_row_index == 1:
+                    rowData["present_stem"]        = td.text
+                    data_row_index = data_row_index + 1
+
+                elif data_row_index == 2:
+                    rowData["perfect_stem"]        = td.text
+                    data_row_index = data_row_index + 1
+
+                elif data_row_index == 3:
+                    rowData["participal_stem"]     = td.text
+                    data_row_index = data_row_index + 1
+
+                elif data_row_index == 4:
+                    rowData["meaning"]             = td.text
+                    data_row_index = data_row_index + 1
+
+                elif data_row_index == 5:
+                    rowData["english_derivatives"] = td.text
+                    break
+
+        elif num_of_elements(row) == 5:
+            prev  = verbs_index - 1
+            valid = validate(td)
+
             if data_row_index == 0:
-                rowData["citation_form"]       = td.text
-                data_row_index = data_row_index + 1
+                rowData["citation_form"] = valid
+                data_row_index           = data_row_index + 1
 
             elif data_row_index == 1:
-                rowData["declining_stem"]      = td.text
-                data_row_index = data_row_index + 1
+                rowData["present_stem"] = valid
+                data_row_index          = data_row_index + 1
 
             elif data_row_index == 2:
-                rowData["meaning"]             = td.text
-                data_row_index = data_row_index + 1
+                rowData["perfect_stem"] = valid
+                data_row_index          = data_row_index + 1
 
             elif data_row_index == 3:
-                rowData["english_derivatives"] = td.text
-                data_row_index = data_row_index + 1
-    #@formatter:on
+                rowData["participal_stem"] = valid
+                data_row_index             = data_row_index + 1
+
+            elif data_row_index == 4:
+                rowData["meaning"]         = verbs[prev]["meaning"]
+                data_row_index             = data_row_index + 1
+
+
+            elif data_row_index == 5:
+                rowData["english_derivatives"] = verbs[prev]["english_derivatives"]
+                break
+
+        elif num_of_elements(row) == 4:
+            prev  = verbs_index - 1
+            valid = validate(td)
+
+            if data_row_index == 0:
+                rowData["citation_form"] = valid
+                data_row_index           = data_row_index + 1
+
+            elif data_row_index == 1:
+                rowData["present_stem"] = valid
+                data_row_index          = data_row_index + 1
+
+            elif data_row_index == 2:
+                rowData["perfect_stem"] = valid
+                data_row_index          = data_row_index + 1
+
+            elif data_row_index == 3:
+                rowData["participal_stem"] = valid
+                data_row_index             = data_row_index + 1
+
+            elif data_row_index == 4:
+                rowData["meaning"] = verbs[prev]["meaning"]
+                data_row_index     = data_row_index + 1
+
+            elif data_row_index == 5:
+                rowData["english_derivatives"] = verbs[prev]["english_derivatives"]
+                break
+        #@formatter:on
     if is_empty(rowData) == False:
-        verbs_table.append(rowData)
-# print(verbs_table)
+        verbs.append(rowData)
+        verbs_index = verbs_index + 1
+
+
+
+prepositions = []
+prepositions_index = 0
+for row in tables[2]:
+    data_row_index = 0
+    rowData = {
+        "word": None,
+        "meaning": None,
+        "prefixes": None,
+    }
+    # check each row to see if it is a tag object
+    for td in row:
+        if num_of_elements(row) == 4:
+
+            if type(td) == tag and td.name != 'th':
+                if data_row_index == 0:
+                    rowData["word"] = td.text
+                    data_row_index = data_row_index + 1
+
+                elif data_row_index == 1:
+                    rowData["meaning"] = td.text
+                    data_row_index = data_row_index + 1
+
+                elif data_row_index == 2:
+                    rowData["prefixes"] = td.text
+                    data_row_index = data_row_index + 1
+                    break
+    if is_empty(rowData) == False:
+        prepositions.append(rowData)
+        prepositions_index = prepositions_index + 1
+
+latin_tables_data = {
+    'nouns_and_adj' : nouns_and_adj,
+    'verbs'         : verbs,
+    'prepositions'  : prepositions
+}
+
