@@ -5,7 +5,7 @@ import { syncHistoryWithStore } from 'react-router-redux'
 import ReduxPromise from 'redux-promise'
 
 import Root from './root'
-import rootReducer from './reducers/root_reducer'
+import rootReducer from './redux/reducers/root_reducer'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 

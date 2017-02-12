@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { KEY as HOMEPAGE_KEY } from '../constants/homepage_constants';
-import { fetchProfile } from '../actions/homepage_actions';
+import { KEY as HOMEPAGE_KEY } from '../redux/constants/homepage_constants';
+import { fetchProfile } from '../redux/actions/homepage_actions';
 
 class Profile extends Component {
 

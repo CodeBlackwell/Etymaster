@@ -1,8 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
+
 import Greeting from '../components/greeting'
-import { KEY as HOMEPAGE_KEY } from '../constants/homepage_constants'
+import LeftNavBar from '../components/left_navigation_bar'
+import { home, reset } from '../../data/buttons'
+
+
+import { KEY as HOMEPAGE_KEY } from '../redux/constants/homepage_constants'
 
 
 class Homepage extends Component {
@@ -13,6 +18,7 @@ class Homepage extends Component {
                 <Greeting
                     greeting={ greeting }
                 />
+                <LeftNavBar />
                 <Link to="profile">Click to display my details!</Link>
                 { this.props.children }
             </div>

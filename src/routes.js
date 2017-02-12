@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Router, Route } from 'react-router'
-import App from './containers/homepage'
+import App from './containers/Homepage'
 import Profile from './containers/Profile'
 
 export default (history) => {
